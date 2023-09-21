@@ -1,0 +1,8 @@
+flask
+pip-chill
+python-dotenv
+flask-sqlalchemy
+werkzeug
+validators
+flask-jwt-extended
+flasgger

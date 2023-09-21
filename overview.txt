@@ -1,0 +1,109 @@
+# Video reference: https://www.youtube.com/watch?v=WFzRy8KVcrM
+
+Authentication
+
+* POST => User Login
+* POST => User Registration
+* POST => Refresh an access token (when access token expires)
+
+# Bookmarks
+
+* GET  => list of Bookmarks
+* POST => Get list of Bookmarks
+* GET  => Get status of Bookmarks
+* GET  => Get a single Bookmark
+* PUT  => Update a single Bookmark
+* GET  => Redirect to a short url
+* PATCH => Update a single Bookmark
+* DELETE => DELETE a single Bookmark 
+
+# what  are blueprints?
+
+With blueprints we are able to create different modules that then 
+we can register with our main flask app so we can keep our app modular.
+Blueprints are meant to group related functionality together.
+
+(myenv) hardikve@hardikve-ubt:~/Desktop/LINK_SAVER_WEB_APP$ flask shell
+Python 3.10.12 (main, Jun 11 2023, 05:26:28) [GCC 11.4.0] on linux
+App: src
+Instance: /home/hardikve/Desktop/LINK_SAVER_WEB_APP/instance
+>>> from src.database import db
+>>> db.create_all()
+>>> db
+<SQLAlchemy sqlite:////home/hardikve/Desktop/LINK_SAVER_WEB_APP/instance/bookmark.db>
+
+# HTTP status code
+
+Standard way for servers to communicate with the client of what happended on the server.
+Servers communicate with the status codes.
+
+200 - success
+400 - failure
+404 - page not found
+
+# User Login Using JWT Authentication
+
+- give our users access tokens and refresh token.
+
+Whenever a user has a correct login on our server we give them a token that they can use to make calls, 
+so we can identify which user it is depending on the token being sent to us.
+
+JWT does is it uses encryption techniques that based on a secret key so with a secret we can be able to
+encode users information into a token and when that token comes back we can descryt it using a seprate key
+then we can tell which user it is without having to make a call to a database.
+
+# Route Protection
+
+@jwt_required() --> Authentication required token 
+
+In postman: Auth > Bearer Token > paste the token
+
+# Refreshing a Token
+
+Whenever we loging we give user 2 tokens Access token and Refresh token.
+Access token is used when we have route Protection.
+
+# Create and retrive records
+
+# Pagination
+
+As being able to send thousands of request at a time will be very costly,
+what we can do is we can allow the frontend to request the specific 
+number of items and also on a specific page.
+
+# Retrive one
+
+# Editing Items
+@bookmarks.route("/<int:id>", methods=['PUT','PATCH'])
+
+# Deleting Items
+
+# User Link Click Tracking
+bookmark.visits = bookmark.visits+1
+
+# Error Handling 
+@app.errorhandler(HTTP_404_NOT_FOUND)
+def handle_404(e):
+    return jsonify({"error":"Not Found."}), HTTP_404_NOT_FOUND
+
+# Get Link Status
+
+This means keep a count of how many times the bookmark has been clicked.
+
+# All end points:
+
+http://127.0.0.1:5000/api/v1/auth/register [POST]
+
+http://127.0.0.1:5000/api/v1/auth/login [POST]
+
+http://127.0.0.1:5000/api/v1/auth/me [GET]
+
+http://127.0.0.1:5000/api/v1/auth/token/refresh [GET]
+
+http://127.0.0.1:5000/api/v1/bookmarks/ [POST, GET]
+
+http://127.0.0.1:5000/api/v1/bookmarks/?page=2 [GET]
+
+http://127.0.0.1:5000/api/v1/bookmarks/1 [GET]
+
+http://127.0.0.1:5000/api/v1/bookmarks/1 [PUT, PATCH]
